@@ -29,7 +29,7 @@
     })
 
     const handleLogin = () => {
-        axios.post('http://127.0.0.1:8000/api/login', formattedCredentials)
+        axios.post('http://127.0.0.1:8000/api/login', formattedCredentials.value)
             .then(function (response) {
             console.log(response)
             waitingOnVerification.value = true
@@ -40,7 +40,7 @@
     }
 
     const handleVerification = () => {
-        axios.post('http://127.0.0.1:8000/api/login/verify', formattedCredentials)
+        axios.post('http://127.0.0.1:8000/api/login/verify', formattedCredentials.value)
            .then(function (response) {
                 console.log(response) //auth token
                 localStorage.setItem('token', response.data)

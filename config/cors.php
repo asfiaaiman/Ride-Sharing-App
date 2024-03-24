@@ -15,7 +15,10 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*',
+    'sanctum/csrf-cookie',
+    // Add your frontend URL here
+    'http://127.0.0.1:5173'],
 
     'allowed_methods' => ['*'],
 
