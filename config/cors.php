@@ -17,6 +17,7 @@ return [
 
     'paths' => ['api/*',
     'sanctum/csrf-cookie',
+    'https://localhost/api/user',
     // Add your frontend URL here
     'http://127.0.0.1:5173'],
 

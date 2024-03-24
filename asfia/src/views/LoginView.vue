@@ -9,6 +9,7 @@
 
     const credentials = reactive({
         phone: null,
+        login_code: null
     })
 
     const waitingOnVerification = ref(false)
@@ -21,17 +22,17 @@
         }
     })
 
-    const formattedCredentials = computed(() => {
+    const getFormattedCredentials = () => {
         return {
             phone: credentials.phone.replaceAll(' ', '').replace('(', '').replace(')', ''),
             login_code: credentials.login_code
         }
-    })
+    }
 
     const handleLogin = () => {
-        axios.post('http://127.0.0.1:8000/api/login', formattedCredentials.value)
+        axios.post('http://127.0.0.1:8000/api/login', getFormattedCredentials())
             .then(function (response) {
-            console.log(response)
+            console.log(response.data)
             waitingOnVerification.value = true
             })
             .catch(function (error) {
@@ -40,7 +41,7 @@
     }
 
     const handleVerification = () => {
-        axios.post('http://127.0.0.1:8000/api/login/verify', formattedCredentials.value)
+        axios.post('http://127.0.0.1:8000/api/login/verify', getFormattedCredentials())
            .then(function (response) {
                 console.log(response) //auth token
                 localStorage.setItem('token', response.data)
@@ -61,7 +62,7 @@
             <div class="max-w-sm mx-auto overflow-hidden text-left shadow sm:rounded-md">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <div>
-                        <input type="text" v-maska data-maska="## (####) #######" v-model="credentials.phone" name="phone" id="phone" placeholder="92 (2344) 5678900"
+                        <input type="text" v-maska data-maska="############" v-model="credentials.phone" name="phone" id="phone" placeholder="9223445678900"
                         class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-black focus:outline-none">
                     </div>
                 </div>
@@ -72,17 +73,17 @@
             </div>
         </form>
 
-        <form v-else action="#" @submit.prevent="handleLogin">
+        <form v-else action="#" @submit.prevent="handleVerification">
             <div class="max-w-sm mx-auto overflow-hidden text-left shadow sm:rounded-md">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <div>
-                        <input type="text" v-maska data-maska="## (####) #######" v-model="credentials.phone" name="phone" id="phone" placeholder="92 (2344) 5678900"
-                        class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-black focus:outline-none">
+                        <input type="text" v-maska data-maska="######" v-model="credentials.login_code" name="login_code" id="login_code" placeholder="123456"
+                            class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:border-black focus:outline-none">
                     </div>
                 </div>
                 <div class="px-4 py-3 text-right bg-gray-50 sm:px-6">
-                    <button type="submit" @submit.prevent="handleLogin"
-                        class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-600 focus:outline-none">Continue</button>
+                    <button type="submit" @submit.prevent="handleVerification"
+                        class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-600 focus:outline-none">Verify</button>
                 </div>
             </div>
         </form>

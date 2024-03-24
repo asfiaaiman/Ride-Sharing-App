@@ -12,7 +12,7 @@ class LoginController extends Controller
     {
         // Validate the phone number
         $request->validate([
-            'phone' => 'required|numeric|min:12'
+            'phone' => 'required|numeric'
         ]);
 
         // Find or create a user model
@@ -37,7 +37,7 @@ class LoginController extends Controller
     {
         // validate the request
         $request->validate([
-            'phone' => 'required|numeric|min:11',
+            'phone' => 'required|numeric',
             'login_code' => 'required|numeric|between:111111,999999',
         ]);
 
